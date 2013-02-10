@@ -1,0 +1,71 @@
+<div class="feature">
+	<h4 id="feature_name"><%=feature.name%></h4>
+	<a class="icon-chevron-down"></a>
+	<a class="icon-chevron-up" style="display:none;"></a>
+	<%#=$rollout.get(feature).inspect%>
+	<div id="details" class="details">
+		<dl class="dl-horizontal">
+		  <dt>Users</dt>
+		  <dd>
+		  	<ul class="unstyled">
+		  	<% if feature.users.count > 0 %>
+			  	<% feature.users.each {|user| %>
+			  		<li><i class="icon-minus delete_user"></i><%#=User.find(user.to_i).Name%></li>
+				<% } %>
+			<% else %>
+				<li>No members</li>
+			<% end %>
+				<li><i class="icon-plus add_users"></i></li>
+			</ul>
+		  </dd>
+		  <dt>Groups</dt>
+		  <dd>
+		  	<ul class="unstyled">
+		  	<% if feature.groups.count > 0 %>
+			  	<% feature.groups.each {|group| %>
+			  		<li><i class="icon-minus delete_group"></i><%=group%></li>
+				<% } %>
+			<% else %>
+				<li>No members</li>
+			<% end %>
+				<li><i class="icon-plus add_groups"></i></li>
+			</ul>
+		  </dd>
+		  <dt>IPs</dt>
+		  <dd>
+		  	<ul class="unstyled">
+		  	<% if feature.ips.count > 0 %>
+			  	<% feature.ips.each {|ip| %>
+			  		<li><i class="icon-minus delete_ip"></i><%=ip%></li>
+				<% } %>
+			<% else %>
+				<li>No members</li>
+			<% end %>
+				<li><i class="icon-plus add_ips"></i></li>
+			</ul>
+		  </dd>
+		  <dt>Percentage</dt>
+		  <dd>
+			<div id="slider_<%=feature.name%>" style="width: 100%;"></div>
+			<p class="slider-input" style="width: 100%; text-align:center;"><%=feature.percentage%>%</p>	
+		  </dd>
+		</dl>
+	</div>
+	<div class="btn-group actions">
+	  <%= link_to "activate global", "/rollout_admin/activate?object_type=feature&object="+ feature.name.to_s, :method => :post, :class => "btn"%>
+
+	  <%= link_to "deactivate global", "/rollout_admin/deactivate?object_type=feature&object="+ feature.name.to_s, :method => :post, :class => "btn"%>
+	</div>
+</div>
+<script>
+	$("#slider_<%=feature.name%>").slider({
+		value: <%=feature.percentage%>,
+		'slide': function(e, ui){ 
+				console.log($(this).siblings('.slider-input'));
+				$(this).siblings('.slider-input').html(ui.value + "%");
+				$.post('<%= update_percentage_path(:format => :json )%>', {percentage: ui.value, feature: "<%=feature.name%>"}, function(data) {
+
+					});
+			}
+	});
+</script>

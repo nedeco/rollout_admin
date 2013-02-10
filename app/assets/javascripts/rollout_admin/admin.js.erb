@@ -1,0 +1,150 @@
+<% 
+# import the routes from the engine router to be aware
+# of the mount path when doing javascript ajax calls
+url = RolloutAdmin::Engine.routes.url_helpers 
+%>
+
+$(function(){
+    $('a.icon-chevron-down').click(
+	    function(){
+	        $(this).parent().find('div.details').fadeIn(1000);
+	        $(this).hide();
+	        $(this).parent().find('a.icon-chevron-up').show();
+	    }
+    );
+    $('a.icon-chevron-up').click(
+	    function(){
+	       	$(this).parent().find('div.details').fadeOut(500);
+   	        $(this).hide();
+   	        $(this).parent().find('a.icon-chevron-down').show();
+	    }
+    );
+
+    $(document).delegate('i.delete_user', 'click',
+    	function(){
+    		var context=$(this).closest("div").parent().find("h4#feature_name").html(),
+    			that=$(this).closest("li"),
+    			ulist=$(this).closest("ul");
+	 		$.post('<%= url.remove_path(:format => :json )%>', {object_type:"user", user: $(this).closest("li").text(), feature: context}, function(data) {
+	 			that.remove();
+	 			if ($("li",ulist).length == 1) {
+	 				ulist.children(':last').before('<li>No members</li>');
+	 			}
+			});
+    	});
+
+    $(document).delegate('i.delete_group','click',
+    	function(){
+    		var context=$(this).closest("div").parent().find("h4#feature_name").html(),
+    			that=$(this).closest("li"),
+    			ulist=$(this).closest("ul");
+	 		$.post('<%= url.remove_path(:format => :json )%>', {object_type:"group", group: $(this).closest("li").text(), feature: context}, function(data) {
+	 			that.remove();
+	 			if ($("li",ulist).length == 1) {
+	 				ulist.children(':last').before('<li>No members</li>');
+	 			}
+			});
+    	});
+
+    $(document).delegate('i.delete_ip','click',
+    	function(){
+    		var context=$(this).closest("div").parent().find("h4#feature_name").html(),
+    			that=$(this).closest("li"),
+    			ulist=$(this).closest("ul");
+	 		$.post('<%= url.remove_path(:format => :json )%>', {object_type:"ip", ip: $(this).closest("li").text(), feature: context}, function(data) {
+	 			that.remove();
+	 			if ($("li",ulist).length == 1) {
+	 				ulist.children(':last').before('<li>No members</li>');
+	 			}
+			});
+    	});
+
+
+    $('i.add_users').click(
+	    function(){
+	    	context=$(this).closest("div").parent().find("h4#feature_name").html();
+	    	$('.feature_name').html(context);
+	    	$that = $(this);
+
+			$.getJSON('<%= url.get_users_path(:format => :json )%>', function(json) {
+					userlist='<h5>Select users to add</h5><form id="userlist"><ul class="unstyled">';
+					$.each(json, function() {
+					    userlist += '<li><input type="checkbox", value="'+this.id+'" data-username="'+this.Name+'"> '+this.Name+', '+this.email+'</li>';
+					  });
+					userlist +='</ul></form>';
+
+					$('#addUserModal').find("div.modal-body").html(userlist);
+
+					// clear former event handlers
+					$('#addUserModal').find("div.modal-footer").find("button.btn-primary").unbind();
+			    	$('#addUserModal').find("div.modal-footer").find("button.btn-primary").click(function() {
+			    		 var allUsers = [];
+			    		 var allUserNames = [];
+						 $('#userlist :checked').each(function() {
+						   allUsers.push($(this).val());
+						   allUserNames.push($(this).data("username"));
+						 });
+
+			    		$.post('<%= url.add_path(:format => :json )%>', {object_type:"user", user: allUsers.join(), feature: context}, function(data) {
+			    			list = $that.closest('ul');
+		    				if (list.children(':first').text() == "No members") {
+    							list.children(':first').remove();
+    						}
+			    			allUserNames.forEach(function(entry) {
+								list.children(':last').before('<li><i class="icon-minus delete_user"></i>'+entry+'</li>');
+							});
+						});
+			    		$('#addUserModal').modal('hide');
+			    	});
+					$('#addUserModal').modal();
+
+			});
+	    	
+	    }
+    );
+    $('i.add_groups').click(
+	    function(){
+	    	context=$(this).closest("div").parent().find("h4#feature_name").html();
+	    	$('.feature_name').html(context);
+	    	$that = $(this);
+
+			// clear former event handlers
+			$('#addGroupModal').find("div.modal-footer").find("button.btn-primary").unbind();
+	    	$('#addGroupModal').find("div.modal-footer").find("button.btn-primary").click(function() {
+	    		$.post('<%= url.add_path(:format => :json )%>', {object_type:"group", group: $('#addGroupModal').find("div.modal-body").find("input#group_name").val(), feature: context}, function(data) {				  
+	    			list = $that.closest('ul');
+	    			if (list.children(':first').text() == "No members") {
+	    				list.children(':first').remove();
+	    			}
+					list.children(':last').before('<li><i class="icon-minus delete_group"></i>'+$('#addGroupModal').find("div.modal-body").find("input#group_name").val()+'</li>');
+					$('#addGroupModal').find("div.modal-body").find("input#group_name").val('');
+				});
+	    		$('#addGroupModal').modal('hide');
+	    	});
+			$('#addGroupModal').modal();
+	    }
+    );
+    $('i.add_ips').click(
+	    function(){
+	    	context=$(this).closest("div").parent().find("h4#feature_name").html();
+	    	$('.feature_name').html(context);
+	    	$that = $(this);
+
+			// clear former event handlers
+			$('#addIPModal').find("div.modal-footer").find("button.btn-primary").unbind();
+	    	$('#addIPModal').find("div.modal-footer").find("button.btn-primary").click(function() {
+	    		$.post('<%= url.add_path(:format => :json )%>', {object_type:"ip", ip: $('#addIPModal').find("div.modal-body").find("input#ipaddr").val(), feature: context}, function(data) {				  
+
+	    			list = $that.closest('ul');
+	    			if (list.children(':first').text() == "No members") {
+	    				list.children(':first').remove();
+	    			}
+					list.children(':last').before('<li><i class="icon-minus delete_ip"></i>'+$('#addIPModal').find("div.modal-body").find("input#ipaddr").val()+'</li>');
+					$('#addIPModal').find("div.modal-body").find("input#ipaddr").val('');
+				});
+	    		$('#addIPModal').modal('hide');
+	    	});
+			$('#addIPModal').modal();
+	    }
+    );
+});

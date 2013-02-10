@@ -1,0 +1,436 @@
+
+@import "twitter/bootstrap/variables";
+@import "twitter/bootstrap/mixins";
+@import "twitter/bootstrap/responsive";
+
+
+/* clearfix */
+.cf{
+    zoom:1;
+    &:before,
+    &:after{
+        content:"";
+        display:table;
+    }
+    &:after{
+        clear:both;
+    }
+}
+
+html, body {
+    background: url(/assets/rollout_admin/main_bg.jpg);
+    font-family: 'Roboto Condensed', sans-serif;    
+    font-size: 12px;
+    color: @white;
+}
+
+header {
+    z-index: 100;
+    position: fixed;
+    display: block;
+    height: 60px;
+    box-shadow: 0 0 30px @darkblue;
+    background: url(/assets/rollout_admin/head_bg.jpg);
+    border-bottom: 5px solid @blue;
+    width: 100%;
+
+    @media (max-width: 767px) {
+        margin-left: -20px;
+        margin-right: -20px;
+    }
+
+    .app_icon {
+        margin: 6px;
+        cursor: pointer;
+    }
+
+    #user_info {
+        float: right;
+        margin: 0px 10px;
+
+        img {
+            margin: 0 10px;
+            height: 60px;
+        }
+    }
+
+    #login_info {
+        float: right;
+        margin: 15px 10px;
+    }
+
+    a.addlist i {
+        margin: 18px 10px;
+    }
+}
+
+.title {
+    color: #fff;
+}
+
+div.container{
+    padding-top: 70px;
+
+
+    div.row {
+        h2.list_header{
+            color: @blue;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            font-size: 26px;
+            font-weight: bold;
+            text-shadow: 2px 2px @darkblue;
+            text-align: center;
+        }
+
+        ul.todos{
+            padding: 0;
+            margin: 10px;
+            display: block;     
+            list-style: none;   
+
+
+            li{
+                position:relative;
+                padding: 10px;
+                text-align:left;
+                margin: 20px 0;
+                min-height: 40px;
+                overflow:hidden;
+                
+
+                .todo_desc {
+                    word-wrap: break-word;
+                    color: #000;
+                }
+
+
+                .listname {
+                    font-size: 13px;
+                    font-weight: bold;
+                    color: @blue;
+                }
+
+
+                &.stamp {
+                    min-height: 5px;
+                    padding: 15px 0 5px 0px;
+                }
+
+                &.todo {
+                    box-shadow: 0 0 10px @darkblue;
+                    background: #fff;
+                    .opacity(95);
+                    .transition(1s);
+
+                    .actions {
+                        background: rgba(4,38,58,.5); /* @darkblue */
+                        padding: 5px 20px 5px 10px;
+                        position: absolute;
+                        right: 0;
+                        top: 20px;
+                        opacity: 0;
+                        display: none;
+                        .transition(1s);
+                    }   
+                    .username {
+                        font-size: 11px;
+                        color: @blue;
+                    }                
+                }
+
+                &.todo:hover{
+                    background: @blue;
+                    color: #fff;
+                    .transition(0.2s);
+                    box-shadow: 0 0 20px @darkblue;
+                    margin:20px -10px;
+
+                    .actions {
+                        background: rgba(4,38,58,.5); /* @darkblue */
+                        padding: 5px 20px 5px 10px;
+                        position: absolute;
+                        right: 0;
+                        top: 20px;
+                        opacity: 1;
+                        display: block;
+                        .transition(0.4s);
+                    }   
+                    .listname {
+                        color: @white;
+                    }                        
+                    .username {
+                        color: @white;
+                    }                        
+                }
+
+                &.header {
+                    color: @blue;
+                    text-transform: uppercase;
+                    margin-bottom: 10px;
+                    font-size: 26px;
+                    font-weight: bold;
+                    text-shadow: 2px 2px @darkblue;
+                }
+
+            }
+
+        }
+        ul.todolist_items{
+            padding: 0;
+            margin: 10px;
+            display: block;     
+            list-style: none;   
+
+
+            li{
+                position:relative;
+                padding: 10px;
+                text-align:left;
+                margin: 0px 0;
+                min-height: 40px;
+                overflow:hidden;
+                
+
+                .todo_desc {
+                    word-wrap: break-word;
+                    color: #000;
+                }
+
+
+                .listname {
+                    font-size: 13px;
+                    font-weight: bold;
+                    color: @blue;
+                }
+
+
+                &.stamp {
+                    min-height: 5px;
+                    padding: 15px 0 5px 0px;
+                }
+
+                &.todo {
+                    box-shadow: 0 0 10px @darkblue;
+                    background: #fff;
+                    .opacity(95);
+                    .transition(1s);
+
+                    .actions {
+                        background: rgba(4,38,58,.5); /* @darkblue */
+                        padding: 5px 20px 5px 10px;
+                        position: absolute;
+                        right: 0;
+                        top: 20px;
+                        opacity: 0;
+                        display: none;
+                        .transition(1s);
+                    }   
+                    .username {
+                        font-size: 11px;
+                        color: @blue;
+                    }                
+                }
+
+                &.todo:hover{
+                    background: @blue;
+                    color: #fff;
+                    .transition(0.2s);
+                    box-shadow: 0 0 20px @darkblue;
+                    margin:0px -10px;
+
+                    .actions {
+                        background: rgba(4,38,58,.5); /* @darkblue */
+                        padding: 5px 20px 5px 10px;
+                        position: absolute;
+                        right: 0;
+                        top: 20px;
+                        opacity: 1;
+                        display: block;
+                        .transition(0.4s);
+                    }   
+                    .listname {
+                        color: @white;
+                    }                        
+                    .username {
+                        color: @white;
+                    }                        
+                }
+
+                &.header {
+                    color: @blue;
+                    text-transform: uppercase;
+                    margin-bottom: 10px;
+                    font-size: 26px;
+                    font-weight: bold;
+                    text-shadow: 2px 2px @darkblue;
+                }
+
+            }
+        }
+    }
+}
+
+
+.alllists {
+    display:none;
+    background-color: #ffffff;
+    z-index: 100;
+    width: 250px;
+    min-height: 300px;
+    box-shadow: 0 0 20px #04263a;
+    margin: 5px 5px;
+    padding: 10px;
+    position: absolute;
+    top: 65px;
+}
+
+ul.lists{
+    display:table-row;
+}
+
+li.list {
+    display: table-row;
+    list-style-type: none;
+    margin: 50px;
+    padding-left: 35px;
+    vertical-align: middle;
+}
+
+li.list a {
+    text-decoration: none;
+    font-size: 16px;
+    color: @blue;
+    text-transform: uppercase;
+    font-weight: bold;          
+}
+
+a.hidelist {
+    float:right;
+}
+
+textarea, input, .btn {
+    border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    -webkit-border-radius: 0 !important;
+}
+
+.btn-blue {
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: @blue;
+    background-image: -moz-linear-gradient(top, @blue, @blue_grad_end);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(@blue), to(@blue_grad_end));
+    background-image: -webkit-linear-gradient(top, @blue, @blue_grad_end);
+    background-image: -o-linear-gradient(top, @blue, @blue_grad_end);
+    background-image: linear-gradient(to bottom, @blue, @blue_grad_end);
+    background-repeat: repeat-x;
+    border-color: @blue_grad_end @blue_grad_end @blue;
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    margin-bottom: 10px;
+
+    &:hover, &:active {
+        color: #ffffff;
+        background-color: @blue_grad_end;
+    }   
+}
+
+
+
+.transition (@time: 0.2s) {
+    transition: all @time;
+    -moz-transition: all @time; /* Firefox 4 */
+    -webkit-transition: all @time; /* Safari and Chrome */
+    -o-transition: all @time; /* Opera */
+}
+
+.corners (@radius: 5px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  -ms-border-radius: @radius;
+  -o-border-radius: @radius;
+  border-radius: @radius;
+}
+
+@blue: #00a7db;
+@blue_grad_end: #0f76a5;
+@darkblue: #04263a;
+
+
+
+div.post {
+   color: @yellow;  // <-- using variables
+   #gradient.vertical(@black, @blue);  // <-- using mixins
+}
+div.feature {
+    color: #111;
+	background-color: #eee;
+	margin-bottom: 20px;
+	padding: 10px;
+	border: solid 1px #ccc;
+	.box-sizing(border-box);
+    .border-radius( 5px );
+    .actions {
+    	position:relative;
+    	bottom: 25px;
+    	float: right;
+    }
+    .details {
+    	display:none;
+    }
+}
+
+div.modal {
+    color: #111;
+}
+
+
+div.hero-unit {
+    color: #111;
+}
+
+
+.wrapper {
+    margin-left: auto ;
+    margin-right: auto ;
+    margin-top: 20px;
+    width: 380px;
+    height: auto;
+    padding: 0px 5px 5px 5px;
+    position: relative;
+    border: 1px solid #33a9d6;
+    background-color: #fff;
+    .box-sizing(border-box);
+    .border-radius( 5px );
+
+    form {
+        margin-bottom: 0px;
+    }
+
+    textarea {
+        resize: none; 
+    }
+
+    textarea:focus {
+        background-color: #fff;
+        -webkit-box-shadow: inset 0 0 0 #fff;
+    }
+
+    .post {
+        background-image: none;
+        background-color: transparent;
+        @include box-shadow(none);
+        border: none;
+        width:360px;
+    }
+
+    .btn {
+        display: none;  
+        position: relative;
+        margin-bottom: 2px;
+    }
+    
+    &.is-focused .btn {
+        display: block;
+    }
+}

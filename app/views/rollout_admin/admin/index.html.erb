@@ -1,0 +1,26 @@
+<div class="row">
+	<div class="span12">
+		<div class="page-header">
+				<h1><small>available features</small></h1>
+		</div>
+		<div class="row">
+			<div class="span8">
+				<% @features.each { |f|  %>
+					<%= render :partial => "feature", :object => f%>
+				<% } %>
+			</div>
+			<div class="span4">
+				<h4>Add another features</h4>
+				<%= form_tag(create_path, :method => "post") do %>
+				  <%= label_tag(:feature_name, "Feature name") %>
+				  <%= text_field_tag(:feature_name) %>
+				  <%= submit_tag("Create") %>
+				  <p><br /><b>Attention</b><br />
+				  	Adding a feature only means that you defined a feature within the your redis database. You have to write the code yourself that enables the functionality.
+				  </p>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+<%= render :partial => "modals"%>
