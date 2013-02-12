@@ -33,8 +33,12 @@ module RolloutAdmin
   end
 
   def get_users
-    @users=User.all
-    render :json => @users
+    if Object.const_defined?('User')
+      @users=User.all
+      render :json => @users
+    else
+      render :json => {'error' => 'no users defined'}
+    end
   end
 
   def add
