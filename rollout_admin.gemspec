@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'redis'
   s.add_dependency 'less-rails-bootstrap'
   s.add_dependency 'jquery-ui-rails'
+  s.add_dependency 'therubyracer'
 
   s.add_development_dependency "sqlite3"
 end
