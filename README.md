@@ -24,6 +24,16 @@ To mount the engine within your project add the following line to your routes.rb
 
 You will be asked for a username and password when accessing the page for the first time. This is "foo/bar".
 
+**Special hint when using an API**
+
+It turned out that in one of our own projects we wrapped the users object to be accessed via an API. Within our main application controller the API calls got some additional headers for API Key which where not accessable within the rollout_admin engine. Therefor there is an option RolloutAdmin.user_url you can configure to provide the URL used for getting a users list within the RolloutAdmin interface.
+
+Just define an initializer and paste the following:
+
+	# Rollout Admin configuration
+	#
+	RolloutAdmin.user_url = "/just/something/boring.json"
+
 ## TODO
 
 - make detailed install instructions

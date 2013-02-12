@@ -2,6 +2,13 @@
 # import the routes from the engine router to be aware
 # of the mount path when doing javascript ajax calls
 url = RolloutAdmin::Engine.routes.url_helpers 
+
+
+if RolloutAdmin.user_url.nil?
+  user_url=url.get_users_path(:format => :json )
+else
+  user_url=RolloutAdmin.user_url
+end
 %>
 
 $(function(){
@@ -66,7 +73,7 @@ $(function(){
 	    	$('.feature_name').html(context);
 	    	$that = $(this);
 
-			$.getJSON('<%= url.get_users_path(:format => :json )%>', function(json) {
+			$.getJSON('<%= user_url%>', function(json) {
 					userlist='<h5>Select users to add</h5><form id="userlist"><ul class="unstyled">';
 					$.each(json, function() {
 					    userlist += '<li><input type="checkbox", value="'+this.id+'" data-username="'+this.Name+'"> '+this.Name+', '+this.email+'</li>';
