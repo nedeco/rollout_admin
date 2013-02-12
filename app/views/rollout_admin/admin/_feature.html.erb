@@ -11,11 +11,11 @@
 		  	<% if feature.users.count > 0 %>
 			  	<% feature.users.each {|user| %>
 			  		<li><i class="icon-minus delete_user"></i>
-			  			<%if Object.const_defined?('User') %>
-			  				<%=User.find(user.to_i).Name%>
-			  			<% else %>
-			  				no User model defined
-			  			<% end %>
+		  			 	<% if User.find(user.to_i).nil? %>
+		  			 		<%= user %>
+		  			 	<% else %>
+		  			 		<%=User.find(user.to_i).send(RolloutAdmin.user_name_attribute) %>
+		  			 	<% end %>
 			  		</li>
 				<% } %>
 			<% else %>

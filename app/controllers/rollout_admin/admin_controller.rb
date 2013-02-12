@@ -59,7 +59,7 @@ module RolloutAdmin
 
   def remove 
     if params[:object_type] == "user"
-      @user=User.where(:name => params[:user]).first
+      @user=User.where(RolloutAdmin.user_name_attribute.to_sym  => params[:user]).first
       if @user
         $rollout.deactivate_user(params[:feature], @user)
       end
@@ -86,7 +86,7 @@ module RolloutAdmin
 
   def authenticate
     authenticate_or_request_with_http_basic do |username, password|
-      username == "foo" && password == "bar"
+      username == RolloutAdmin.auth_name && password == RolloutAdmin.auth_password
     end
   end
 

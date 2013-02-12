@@ -76,7 +76,7 @@ $(function(){
 			$.getJSON('<%= user_url%>', function(json) {
 					userlist='<h5>Select users to add</h5><form id="userlist"><ul class="unstyled">';
 					$.each(json, function() {
-					    userlist += '<li><input type="checkbox", value="'+this.id+'" data-username="'+this.Name+'"> '+this.Name+', '+this.email+'</li>';
+					    userlist += '<li><input type="checkbox", value="'+this.id+'" data-username="'+this.<%=RolloutAdmin.user_name_attribute%>+'"> '+this.<%=RolloutAdmin.user_name_attribute%>+', '+this.<%=RolloutAdmin.user_email_attribute%>+'</li>';
 					  });
 					userlist +='</ul></form>';
 
