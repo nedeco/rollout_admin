@@ -10,12 +10,13 @@ GIT
 PATH
   remote: .
   specs:
-    rollout_admin (0.0.1)
+    rollout_admin (0.0.4)
       jquery-rails
       jquery-ui-rails
       less-rails-bootstrap
       rails (~> 3.2.11)
       redis
+      therubyracer
 
 GEM
   remote: http://rubygems.org/
