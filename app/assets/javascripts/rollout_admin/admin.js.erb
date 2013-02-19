@@ -32,7 +32,7 @@ $(function(){
     		var context=$(this).closest("div").parent().find("h4#feature_name").html(),
     			that=$(this).closest("li"),
     			ulist=$(this).closest("ul");
-	 		$.post('<%= url.remove_path(:format => :json )%>', {object_type:"user", user: $(this).closest("li").text(), feature: context}, function(data) {
+	 		$.post('<%= url.remove_path(:format => :json )%>', {object_type:"user", user: $(this).data('id'), feature: context}, function(data) {
 	 			that.remove();
 	 			if ($("li",ulist).length == 1) {
 	 				ulist.children(':last').before('<li>No members</li>');
@@ -93,13 +93,16 @@ $(function(){
 						 });
 
 			    		$.post('<%= url.add_path(:format => :json )%>', {object_type:"user", user: allUsers.join(), feature: context}, function(data) {
+			    			console.log(data);
 			    			list = $that.closest('ul');
 		    				if (list.children(':first').text() == "No members") {
     							list.children(':first').remove();
     						}
-			    			allUserNames.forEach(function(entry) {
-								list.children(':last').before('<li><i class="icon-minus delete_user"></i>'+entry+'</li>');
-							});
+    						$.each(data, function() {
+    							console.log(this);
+								list.children(':last').before('<li><i class="icon-minus delete_user" data-id="'+this.id+'"></i>'+this.<%=RolloutAdmin.user_name_attribute%>+'</li>');
+    						});
+			
 						});
 			    		$('#addUserModal').modal('hide');
 			    	});

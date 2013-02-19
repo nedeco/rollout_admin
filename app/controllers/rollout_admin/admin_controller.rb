@@ -43,9 +43,16 @@ module RolloutAdmin
 
   def add
     if params[:object_type] == "user"
-      $rollout.activate_user(params[:feature], User.find(params[:user].to_i))
-      @feature = $rollout.get(params[:feature])
-      render :json => @feature.users
+      @users=[]
+      params[:user].split(",").each {|id|
+        puts User.find(id).inspect
+
+        $rollout.activate_user(params[:feature], User.find(id))
+        @feature = $rollout.get(params[:feature])
+        @users << User.find(id)
+      }
+
+      render :json => @users
     elsif params[:object_type] == "group"
       $rollout.activate_group(params[:feature], params[:group].to_sym)
       @feature = $rollout.get(params[:feature])
@@ -59,7 +66,7 @@ module RolloutAdmin
 
   def remove 
     if params[:object_type] == "user"
-      @user=User.where(RolloutAdmin.user_name_attribute.to_sym  => params[:user]).first
+      @user=User.find(params[:user])
       if @user
         $rollout.deactivate_user(params[:feature], @user)
       end

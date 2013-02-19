@@ -10,7 +10,7 @@ GIT
 PATH
   remote: .
   specs:
-    rollout_admin (0.0.4)
+    rollout_admin (0.0.5)
       jquery-rails
       jquery-ui-rails
       less-rails-bootstrap
